@@ -100,7 +100,7 @@ public class OrderActionsService {
         return response.getBody();
     }
 
-    public Void requestOrderCancellation (UUID orderId, String accessToken, CancellationRequestEntity cancellationRequestEntity) {
+    public Void requestOrderCancellation(UUID orderId, String accessToken, CancellationRequestEntity cancellationRequestEntity) {
         String url = merchantApiHost + "/order/v1.0/orders/" + orderId + "/requestCancellation";
 
         HttpHeaders headers = new HttpHeaders();
@@ -110,4 +110,5 @@ public class OrderActionsService {
         ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Void.class);
         return response.getBody();
     }
+
 }
