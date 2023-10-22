@@ -39,7 +39,7 @@ public class OrderActionsController {
 
     @GetMapping(value = "/{orderId}/cancellationReasons")
     public ResponseEntity<List<OrderCancellationReasonEntity>> getOrderCancellationReasons(@PathVariable UUID orderId, @RequestHeader("Authorization") String accessToken) {
-        return ResponseEntity.accepted().body(orderActionsService.getOrderCancellationReasons(orderId, accessToken));
+        return ResponseEntity.ok().body(orderActionsService.getOrderCancellationReasons(orderId, accessToken));
     }
 
     @PostMapping(value = "/{orderId}/requestCancellation")
