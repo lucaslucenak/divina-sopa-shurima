@@ -1,7 +1,9 @@
 package com.lucaslucenak.Shurima.services;
 
+import com.lucaslucenak.Shurima.entities.OrderCancellationReasonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,7 +34,7 @@ public class OrderActionsService {
 
 
     public Void confirmOrder(UUID orderId, String accessToken) {
-        String url = merchantApiHost + "/order/v1.0/orders/" + orderId.toString() + "/confirm";
+        String url = merchantApiHost + "/order/v1.0/orders/" + orderId + "/confirm";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", accessToken);
@@ -44,7 +47,7 @@ public class OrderActionsService {
     }
 
     public Void startOrderPreparation(UUID orderId, String accessToken) {
-        String url = merchantApiHost + "/order/v1.0/orders/" + orderId.toString() + "/startPreparation";
+        String url = merchantApiHost + "/order/v1.0/orders/" + orderId + "/startPreparation";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", accessToken);
@@ -57,7 +60,7 @@ public class OrderActionsService {
     }
 
     public Void orderReadyToPickup(UUID orderId, String accessToken) {
-        String url = merchantApiHost + "/order/v1.0/orders/" + orderId.toString() + "/readyToPickup";
+        String url = merchantApiHost + "/order/v1.0/orders/" + orderId + "/readyToPickup";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", accessToken);
@@ -70,7 +73,7 @@ public class OrderActionsService {
     }
 
     public Void dispatchOrder(UUID orderId, String accessToken) {
-        String url = merchantApiHost + "/order/v1.0/orders/" + orderId.toString() + "/dispatch";
+        String url = merchantApiHost + "/order/v1.0/orders/" + orderId + "/dispatch";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", accessToken);
@@ -78,6 +81,20 @@ public class OrderActionsService {
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 
         ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Void.class);
+
+        return response.getBody();
+    }
+
+    public List<OrderCancellationReasonEntity> getOrderCancellationReasons(UUID orderId, String accessToken) {
+        String url = merchantApiHost + "/order/v1.0/orders/" + orderId +  "/cancellationReasons";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", accessToken);
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+
+        ParameterizedTypeReference<List<OrderCancellationReasonEntity>> parameterizedTypeReference = new ParameterizedTypeReference<>() {};
+        ResponseEntity<List<OrderCancellationReasonEntity>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, parameterizedTypeReference);
 
         return response.getBody();
     }
