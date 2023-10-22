@@ -4,9 +4,7 @@ import com.lucaslucenak.Shurima.entities.OrderEventsPollingEntity;
 import com.lucaslucenak.Shurima.services.OrderEventsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,11 @@ public class OrderEventsController {
     @GetMapping(value = "/polling")
     public ResponseEntity<List<Object>> getOrderEventsPolling() {
         return ResponseEntity.ok().body(orderEventsService.getOrderEventsPolling());
+    }
+
+    @PostMapping(value = "/acknowledgment")
+    public ResponseEntity<Void> acknowledgeOrderEvents(@RequestBody List<Object> orderEvents) {
+        return ResponseEntity.accepted().body(orderEventsService.orderEventsAcknowledgment(orderEvents));
+
     }
 }
