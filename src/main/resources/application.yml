@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: ${APP_PROFILE:test}
+  jpa:
+    open-in-view: false
+  main:
+    allow-circular-references: true
+
+cors:
+  origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+ifood:
+  credentials:
+    merchantApiHost: https://merchant-api.ifood.com.br
+    clientId: f6af1b62-eb73-4554-a0b0-1e992889fc13
+    clientSecret: 7mwfwod58e6trcue6xhpn0bju5wvtnk0vzln1szaii1eu7s0ovkxdrg46s7kpys0xi5uoivfqavlar19vi1mokigbkw9zqxif85
+    grantType: client_credentials
+    merchantId: b7b93326-415e-47c1-88eb-00dc300b0ee5
