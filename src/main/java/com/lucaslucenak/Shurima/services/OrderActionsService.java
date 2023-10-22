@@ -24,9 +24,6 @@ public class OrderActionsService {
     @Value("${ifood.credentials.merchantApiHost}")
     private String merchantApiHost;
 
-    @Value("${ifood.credentials.grantType}")
-    private String grantType;
-
     @Value("${ifood.credentials.clientId}")
     private String clientId;
 
