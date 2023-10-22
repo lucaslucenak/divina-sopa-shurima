@@ -19,9 +19,6 @@ public class OrderEventsService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private AuthenticationService authenticationService;
-
     @Value("${ifood.credentials.merchantApiHost}")
     private String merchantApiHost;
 
@@ -34,14 +31,12 @@ public class OrderEventsService {
     @Value("${ifood.credentials.clientSecret}")
     private String clientSecret;
 
-    private String accessToken;
 
-    public List<Object> getOrderEventsPolling() {
+    public List<Object> getOrderEventsPolling(String accessToken) {
         String url = merchantApiHost + "/order/v1.0/events:polling";
-        accessToken = this.getNewAccessToken();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization", accessToken);
 
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
         ParameterizedTypeReference<List<Object>> responseType = new ParameterizedTypeReference<>() {};
@@ -51,20 +46,15 @@ public class OrderEventsService {
         return response.getBody();
     }
 
-    public Void orderEventsAcknowledgment(List<Object> acknowledgments) {
+    public Void orderEventsAcknowledgment(List<Object> acknowledgments, String accessToken) {
         String url = merchantApiHost + "/order/v1.0/events/acknowledgment";
-        accessToken = this.getNewAccessToken();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization", accessToken);
 
         HttpEntity<List<Object>> httpEntity = new HttpEntity<>(acknowledgments, headers);
         ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Void.class);
         return response.getBody();
 
-    }
-
-    public String getNewAccessToken() {
-        return authenticationService.getNewSession().getAccessToken();
     }
 }
