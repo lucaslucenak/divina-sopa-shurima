@@ -1,5 +1,6 @@
 package com.lucaslucenak.Shurima.controllers;
 
+import com.lucaslucenak.Shurima.entities.CancellationRequestEntity;
 import com.lucaslucenak.Shurima.entities.OrderCancellationReasonEntity;
 import com.lucaslucenak.Shurima.services.OrderActionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class OrderActionsController {
     @GetMapping(value = "/{orderId}/cancellationReasons")
     public ResponseEntity<List<OrderCancellationReasonEntity>> getOrderCancellationReasons(@PathVariable UUID orderId, @RequestHeader("Authorization") String accessToken) {
         return ResponseEntity.accepted().body(orderActionsService.getOrderCancellationReasons(orderId, accessToken));
+    }
+
+    @PostMapping(value = "/{orderId}/requestCancellation")
+    public ResponseEntity<Void> requestOrderCancellation(@PathVariable UUID orderId, @RequestHeader("Authorization") String accessToken, @RequestBody CancellationRequestEntity cancellationRequestEntity) {
+        return ResponseEntity.accepted().body(orderActionsService.requestOrderCancellation(orderId, accessToken, cancellationRequestEntity));
     }
 
 }

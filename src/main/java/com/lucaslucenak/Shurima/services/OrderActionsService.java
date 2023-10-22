@@ -1,5 +1,6 @@
 package com.lucaslucenak.Shurima.services;
 
+import com.lucaslucenak.Shurima.entities.CancellationRequestEntity;
 import com.lucaslucenak.Shurima.entities.OrderCancellationReasonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -96,6 +97,17 @@ public class OrderActionsService {
         ParameterizedTypeReference<List<OrderCancellationReasonEntity>> parameterizedTypeReference = new ParameterizedTypeReference<>() {};
         ResponseEntity<List<OrderCancellationReasonEntity>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, parameterizedTypeReference);
 
+        return response.getBody();
+    }
+
+    public Void requestOrderCancellation (UUID orderId, String accessToken, CancellationRequestEntity cancellationRequestEntity) {
+        String url = merchantApiHost + "/order/v1.0/orders/" + orderId + "/requestCancellation";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", accessToken);
+
+        HttpEntity<CancellationRequestEntity> httpEntity = new HttpEntity<>(cancellationRequestEntity, headers);
+        ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Void.class);
         return response.getBody();
     }
 }
