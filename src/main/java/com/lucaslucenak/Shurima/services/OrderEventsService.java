@@ -36,7 +36,7 @@ public class OrderEventsService {
 
     private String accessToken;
 
-    public List<OrderEventsPollingEntity> getOrderEventsPolling() {
+    public List<Object> getOrderEventsPolling() {
         String url = merchantApiHost + "/order/v1.0/events:polling";
         accessToken = authenticationService.getNewSession().getAccessToken();
 
@@ -44,9 +44,9 @@ public class OrderEventsService {
         headers.set("Authorization", "Bearer " + accessToken);
 
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
-        ParameterizedTypeReference<List<OrderEventsPollingEntity>> responseType = new ParameterizedTypeReference<List<OrderEventsPollingEntity>>() {};
+        ParameterizedTypeReference<List<Object>> responseType = new ParameterizedTypeReference<List<Object>>() {};
 
-        ResponseEntity<List<OrderEventsPollingEntity>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, responseType);
+        ResponseEntity<List<Object>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, responseType);
 
         return response.getBody();
     }

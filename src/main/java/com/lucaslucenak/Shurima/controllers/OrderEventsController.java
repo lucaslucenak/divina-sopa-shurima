@@ -18,7 +18,7 @@ public class OrderEventsController {
     private OrderEventsService orderEventsService;
 
     @GetMapping(value = "/polling")
-    public ResponseEntity<List<OrderEventsPollingEntity>> getOrderEventsPolling() {
+    public ResponseEntity<List<Object>> getOrderEventsPolling() {
         return ResponseEntity.ok().body(orderEventsService.getOrderEventsPolling());
     }
 }
