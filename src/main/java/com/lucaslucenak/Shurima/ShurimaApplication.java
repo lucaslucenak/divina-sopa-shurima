@@ -12,6 +12,7 @@ public class ShurimaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShurimaApplication.class, args);
+		System.out.println("oiiii");
 	}
 
 	@Bean
